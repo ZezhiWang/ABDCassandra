@@ -1,6 +1,8 @@
 package main
 
 import(
+	"fmt"
+	"log"
 	"github.com/gocql/gocql"
 )
 
@@ -16,19 +18,20 @@ func closeAll() {
 	for _, sess := range sessions {
 		sess.Close()
 	}
+	fmt.Println("all sessions closed")
 }
 
-func queryGet(session *gocql.Session, done chan bool) {
+func queryGet(session *gocql.Session, done chan TagVal) {
 	var tv TagVal
-	arg := fmt.Sprintf("SELECT id, ver, val FROM tmp WHERE key=0")
-	if err := session.Query(arg).Scan(&tv.Id, &tv.Ver, &tv.val); err != nil {
+	arg := fmt.Sprintf("SELECT id, ver, val FROM abd WHERE key=0")
+	if err := session.Query(arg).Scan(&tv.Id, &tv.Ver, &tv.Val); err != nil {
 		log.Fatal(err)
 	}
 	done <- tv
 }
 
 func querySet(tv TagVal, session *gocql.Session, done chan bool) {
-	arg := fmt.Sprintf("UPDATE abd SET id=%s, ver=%d, val=%s WHERE key=0", tv.Id, tv.Ver, tv.Val)
+	arg := fmt.Sprintf("UPDATE abd SET id='%s', ver=%d, val='%s' WHERE key=0", tv.Id, tv.Ver, tv.Val)
 	if err := session.Query(arg).Exec(); err != nil {
 		log.Fatal(err)
 	}

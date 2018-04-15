@@ -18,7 +18,7 @@ func (t *TagVal) smaller(x TagVal) bool {
 	return res
 }
 
-func (t *Tagval) update(id string, val string) {
+func (tv *TagVal) update(id string, val string) {
 	tv.Id = id
 	tv.Ver += 1
 	tv.Val = val
