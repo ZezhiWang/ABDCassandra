@@ -12,7 +12,7 @@ import(
 //	Keyspace 	= demo
 //	Table		= abd(key int, id text, ver int, val text)
 
-const addrs	= []string{"172.17.0.2", "172.17.0.3", "172.17.0.4"}
+var addrs = []string{"172.17.0.2", "172.17.0.3", "172.17.0.4"}
 
 var (
 	id 			int
@@ -29,6 +29,7 @@ func main() {
 
 	done := make(chan bool)
 	go userInput(done)
+	<-done
 }
 
 func userInput(done chan bool) {
@@ -41,7 +42,7 @@ func userInput(done chan bool) {
         	info := strings.SplitN(text, " ", 2)[1]
         	write(info)
         } else if strings.HasPrefix(text, "read") {
-        	fmt.Println(read())
+        	fmt.Printf("\t%s\n",read())
         } else {
         	break
         }

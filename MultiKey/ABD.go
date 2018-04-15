@@ -6,13 +6,13 @@ func write(key int, val string){
 	set(key, tv)
 }
 
-func read(key int){
+func read(key int) string{
 	tv := get(key)
 	set(key,tv)
 	return tv.Val
 }
 
-func get(key int) Tagval{
+func get(key int) TagVal{
 	done := make(chan TagVal)
 	for _,session := range sessions {
 		go queryGet(key, session, done)
@@ -28,10 +28,10 @@ func get(key int) Tagval{
 	return tv
 }
 
-func set(key int, tv Tagval){
+func set(key int, tv TagVal){
 	done := make(chan bool)
 	for _,session := range sessions {
-		go queryPut(key, tv, session, done)
+		go querySet(key, tv, session, done)
 	}
 	
 	for i := 0; i < len(sessions)/2 + 1; i++ {

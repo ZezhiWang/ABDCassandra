@@ -6,13 +6,14 @@ import(
 	"flag"
 	"bufio"
     "strings"
+	"strconv"
 	"github.com/gocql/gocql"
 )
 
 //	Keyspace 	= demo
 //	Table		= abd(key int, id text, ver int, val text)
 
-const addrs	= []string{"172.17.0.2", "172.17.0.3", "172.17.0.4"}
+var addrs = []string{"172.17.0.2", "172.17.0.3", "172.17.0.4"}
 
 var (
 	id 			int
@@ -29,6 +30,7 @@ func main() {
 
 	done := make(chan bool)
 	go userInput(done)
+	<-done
 }
 
 func userInput(done chan bool) {
@@ -40,10 +42,10 @@ func userInput(done chan bool) {
         if strings.HasPrefix(text, "write"){
         	input := strings.SplitN(text, " ", 3)
         	key,_ := strconv.Atoi(input[1])
-        	write(key, info[2])
+        	write(key, input[2])
         } else if strings.HasPrefix(text, "read") {
-        	key := strconv.Atoi(strings.SplitN(text, " ", 2)[1])
-        	fmt.Println(read(key))
+        	key,_ := strconv.Atoi(strings.SplitN(text, " ", 2)[1])
+        	fmt.Printf("\t%s\n",read(key))
         } else {
         	break
         }
