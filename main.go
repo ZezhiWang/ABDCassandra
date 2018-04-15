@@ -1,8 +1,11 @@
 package main
 
 import(
+	"os"
 	"fmt"
 	"flag"
+	"bufio"
+    "strings"
 	"github.com/gocql/gocql"
 )
 
