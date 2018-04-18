@@ -1,18 +1,26 @@
 package main
 
 func write(val string){
-	tv := get()
+	getChan := make(chan TagVal)
+	go get(getChan)
+	tv := <- getChan
 	tv.update(id, val)
-	set(tv)
+	setChan := make(chan bool)
+	go set(tv, setChan)
+	<- setChan
 }
 
 func read() string{
-	tv := get()
-	set(tv)
+	getChan := make(chan TagVal)
+	go get(getChan)
+	tv := <- getChan
+	setChan := make(chan bool)
+	go set(tv, setChan)
+	<- setChan
 	return tv.Val
 }
 
-func get() TagVal{
+func get(getChan chan TagVal) {
 	done := make(chan TagVal)
 	for _,s := range servers {
 		go s.getFromServer(done)
@@ -25,16 +33,26 @@ func get() TagVal{
 			tv = tmp
 		}
 	}
-	return tv
+	getChan <- tv
+
+	for i := len(servers)/2 + 1; i < len(servers); i++ {
+		<-done
+	}
 }
 
-func set(tv TagVal){
+func set(setChan chan bool, tv TagVal){
 	done := make(chan bool)
 	for _,s := range servers {
 		go s.setToServer(tv, done)
 	}
 	
 	for i := 0; i < len(servers)/2 + 1; i++ {
+		<-done
+	}
+
+	setChan <- true
+
+	for i := len(servers)/2 + 1; i < len(servers); i++ {
 		<-done
 	}
 }
