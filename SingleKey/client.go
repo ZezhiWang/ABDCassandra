@@ -7,7 +7,7 @@ import(
 	"strings"
 )
 
-func client(done chan bool){
+func client(){
 	reader := bufio.NewReader(os.Stdin)
     fmt.Println("Enter Commands: ")
     for {
@@ -21,8 +21,5 @@ func client(done chan bool){
         } else {
         	break
         }
-    }
-    for id,_ := range servers {
-    	done <- true
     }
 }

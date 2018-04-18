@@ -1,5 +1,7 @@
 package main 
 
+import "github.com/gocql/gocql"
+
 type Server struct{
 	tag 	TagVal
 	session *gocql.Session

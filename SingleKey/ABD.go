@@ -2,7 +2,7 @@ package main
 
 func write(val string){
 	tv := get()
-	tv.update(addrs[id], val)
+	tv.update(id, val)
 	set(tv)
 }
 
@@ -19,7 +19,7 @@ func get() TagVal{
 	}
 	
 	tv := TagVal{"", 0, ""}
-	for i := 0; i < len(sessions)/2 + 1; i++ {
+	for i := 0; i < len(servers)/2 + 1; i++ {
 		tmp := <-done
 		if tv.smaller(tmp) {
 			tv = tmp
@@ -34,7 +34,7 @@ func set(tv TagVal){
 		go s.setToServer(tv, done)
 	}
 	
-	for i := 0; i < len(sessions)/2 + 1; i++ {
+	for i := 0; i < len(servers)/2 + 1; i++ {
 		<-done
 	}
 }

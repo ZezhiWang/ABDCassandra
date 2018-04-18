@@ -1,8 +1,6 @@
 package main
 
-import(
-	"github.com/gocql/gocql"
-)
+import "flag"
 
 //	Keyspace 	= demo
 //	Table		= abd(key int, id text, ver int, val text)
@@ -10,10 +8,13 @@ import(
 var addrs = []string{"172.17.0.2", "172.17.0.3", "172.17.0.4"}
 
 var (
+	id	string
 	servers 	map[int]Server
 )
 
 func main() {
+	flag.StringVar(&id, "clientID", "172.17.0.1", "input client ID")
+	flag.Parse()		
 	servers = make(map[int]Server)
 	for id,addr := range addrs {
 		tv := TagVal{Id: addr, Ver: 0, Val: ""}
@@ -21,6 +22,5 @@ func main() {
 	}
 	defer closeAll()
 
-	done := make(chan bool)
-	client(done)
+	client()
 }
