@@ -14,8 +14,8 @@ func read() string{
 
 func get() TagVal{
 	done := make(chan TagVal)
-	for _,session := range sessions {
-		go queryGet(session, done)
+	for _,s := range servers {
+		go s.getFromServer(done)
 	}
 	
 	tv := TagVal{"", 0, ""}
@@ -30,8 +30,8 @@ func get() TagVal{
 
 func set(tv TagVal){
 	done := make(chan bool)
-	for _,session := range sessions {
-		go querySet(tv, session, done)
+	for _,s := range servers {
+		go s.setToServer(tv, done)
 	}
 	
 	for i := 0; i < len(sessions)/2 + 1; i++ {
