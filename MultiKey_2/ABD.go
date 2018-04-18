@@ -14,7 +14,6 @@ func read(key int) string{
 	getChan := make(chan TagVal)
 	go get(key, getChan)
 	tv := <- getChan
-	tv.update(id, val)
 	setChan := make(chan bool)
 	go set(key, tv, setChan)
 	<- setChan

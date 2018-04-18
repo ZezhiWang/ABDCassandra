@@ -40,7 +40,7 @@ func get(getChan chan TagVal) {
 	}
 }
 
-func set(setChan chan bool, tv TagVal){
+func set(tv TagVal, setChan chan bool){
 	done := make(chan bool)
 	for _,s := range servers {
 		go s.setToServer(tv, done)

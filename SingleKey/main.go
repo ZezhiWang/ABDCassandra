@@ -16,8 +16,8 @@ func main() {
 	flag.Parse()		
 	servers = make(map[int]Server)
 	for id,addr := range addrs {
-		tv := TagVal{Id: addr, Ver: 0, Val: ""}
-		servers[id] = Server{tag: tv, session: getSession(addr)}
+		tv := TagVal{Id: "", Ver: 0, Val: ""}
+		servers[id] = Server{id: id, tag: tv, session: getSession(addr)}
 	}
 	defer closeAll()
 
