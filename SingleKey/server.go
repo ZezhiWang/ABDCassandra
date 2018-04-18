@@ -8,7 +8,8 @@ type Server struct{
 }
 
 func (s *Server) getFromServer(done chan TagVal) {
-	done <- queryGet(s.session, done)
+	s.tag = queryGet(s.session)
+	done <- s.tag
 }
 
 func (s *Server) setToServer(tv TagVal, done chan bool) {

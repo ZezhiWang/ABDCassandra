@@ -21,7 +21,7 @@ func closeAll() {
 	fmt.Println("all servers closed")
 }
 
-func queryGet(session *gocql.Session, done chan TagVal) TagVal {
+func queryGet(session *gocql.Session) TagVal {
 	var tv TagVal
 	arg := fmt.Sprintf("SELECT id, ver, val FROM abd WHERE key=0")
 	if err := session.Query(arg).Scan(&tv.Id, &tv.Ver, &tv.Val); err != nil {

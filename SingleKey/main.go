@@ -5,11 +5,10 @@ import "flag"
 //	Keyspace 	= demo
 //	Table		= abd(key int, id text, ver int, val text)
 
-var addrs = []string{"172.17.0.2", "172.17.0.3", "172.17.0.4"}
-
 var (
 	id	string
 	servers 	map[int]Server
+	addrs = []string{"172.17.0.2", "172.17.0.3", "172.17.0.4"}
 )
 
 func main() {

@@ -15,31 +15,24 @@ func getSession(addr string) *gocql.Session {
 }
 
 func closeAll() {
-	for _, sess := range sessions {
-		sess.Close()
+	for _, server := range servers {
+		server.session.Close()
 	}
-	fmt.Println("all sessions closed")
+	fmt.Println("all servers closed")
 }
 
-func queryGet(key int, session *gocql.Session, done chan TagVal) {
+func queryGet(key int, session *gocql.Session) TagVal {
 	var tv TagVal
 	arg := fmt.Sprintf("SELECT id, ver, val FROM abd WHERE key=%d", key)
 	if err := session.Query(arg).Scan(&tv.Id, &tv.Ver, &tv.Val); err != nil {
 		log.Fatal(err)
 	}
-	done <-tv
+	return tv
 }
 
-func querySet(key int, tv TagVal, session *gocql.Session, done chan bool) {
-	// update node tag
-	arg := fmt.Sprintf("INSERT INTO abd (key,id,ver,val) values (%d, '%s', %d, '%s')", 0,tv.Id, tv.Ver, tv.Val)
+func querySet(key int, tv TagVal, session *gocql.Session) {
+	arg := fmt.Sprintf("INSERT INTO abd (key, id, ver, val) values (%d, '%s', %d, '%s')", key, tv.Id, tv.Ver, tv.Val)
 	if err := session.Query(arg).Exec(); err != nil {
 		log.Fatal(err)
 	}
-	// insert value
-	arg = fmt.Sprintf("INSERT INTO abd (key, id, ver, val) values (%d, '%s', %d, '%s')", key, tv.Id, tv.Ver, tv.Val)
-	if err := session.Query(arg).Exec(); err != nil {
-		log.Fatal(err)
-	}
-	done <-true
 }
