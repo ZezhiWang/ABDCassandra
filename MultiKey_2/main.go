@@ -7,7 +7,7 @@ import "flag"
 
 var (
 	id 			string
-	sessions 	map[int]Server
+	servers 	map[int]Server
 	addrs = []string{"172.17.0.2", "172.17.0.3", "172.17.0.4"}
 )
 

@@ -4,6 +4,7 @@ import(
 	"os"
 	"fmt"
 	"bufio"
+	"strconv"
 	"strings"
 )
 
@@ -11,6 +12,7 @@ func client(){
 	reader := bufio.NewReader(os.Stdin)
     fmt.Println("Enter Commands: ")
     for {
+	fmt.Print("->")
         text,_ := reader.ReadString('\n')
         text = strings.Replace(text, "\n", "", -1)
         if strings.HasPrefix(text, "write"){

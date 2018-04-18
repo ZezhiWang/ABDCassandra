@@ -2,7 +2,7 @@ package main
 
 func write(key int, val string){
 	tv := get(key)
-	tv.update(addrs[id], val)
+	tv.update(id, val)
 	set(key, tv)
 }
 
