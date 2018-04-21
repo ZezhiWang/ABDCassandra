@@ -1,16 +1,21 @@
 package main 
 
+type Tag struct {
+	Id 	string
+	Ts 	int
+}
+
 type TagVal struct {
-	Id 		string
-	Ver 	int
+	Tag 	Tag
+	Key 	string
 	Val		string
 }
 
-func (t *TagVal) smaller(x TagVal) bool {
+func (t *Tag) smaller(x Tag) bool {
 	var res bool
-	if t.Ver < x.Ver {
+	if t.Ts < x.Ts {
 		res = true
-	} else if t.Ver > x.Ver {
+	} else if t.Ts > x.Ts {
 		res = false
 	} else {
 		res = t.Id < x.Id
@@ -19,7 +24,7 @@ func (t *TagVal) smaller(x TagVal) bool {
 }
 
 func (tv *TagVal) update(id string, val string) {
-	tv.Id = id
-	tv.Ver += 1
+	tv.Tag.Id = id
+	tv.Tag.Ts += 1
 	tv.Val = val
 }
