@@ -1,6 +1,8 @@
 
 all:
 	go build *.go
+test:
+	go run *.go -clientID=5001 -cassIP=127.0.0.2
 
 run1:
 	go run *.go -clientID=5001 -cassIP=127.0.0.2 &

@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	zmq "github.com/pebbe/zmq3"
+	zmq "github.com/pebbe/zmq4"
 )
 
 func createDealerSocket() *zmq.Socket {
 	dealer,_ := zmq.NewSocket(zmq.DEALER)
+	fmt.Println(dealer)
 	var addr string
 	for _,server := range servers {
-		addr = "tcp://" + server + ":5555"
+		addr = "tcp://" + server
 		dealer.Connect(addr)
-		fmt.Println(addr)
 	}
 	return dealer
 }

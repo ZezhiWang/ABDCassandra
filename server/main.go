@@ -1,6 +1,7 @@
 package main 
 
 import(
+	"flag"
 	"github.com/gocql/gocql"
 )
 

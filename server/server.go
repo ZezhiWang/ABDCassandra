@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 //	"github.com/gocql/gocql"
-	zmq "github.com/pebbe/zmq3"
+	zmq "github.com/pebbe/zmq4"
 )
 
 func server_task() {
@@ -13,21 +13,23 @@ func server_task() {
 	session = getSession(cassIP)
 	defer session.Close()
 	// Set the ZMQ sockets
-	frontend,_ := zmq.NewSocket(zmq.ROUTER)
+	frontend,err := zmq.NewSocket(zmq.ROUTER)
+	if err != nil {
+		fmt.Println(err)
+	}
 	defer frontend.Close()
-	frontend.Bind("tcp://"+port)
+	frontend.Bind("tcp://*:"+port)
 
 	//  Backend socket talks to workers over inproc
 	backend, _ := zmq.NewSocket(zmq.DEALER)
 	defer backend.Close()
 	backend.Bind("inproc://backend")
 
-	fmt.Println("frontend router", "tcp://"+port)
 	go server_worker()
 
 	//  Connect backend to frontend via a proxy
-	err := zmq.Proxy(frontend, backend, nil)
-	log.Fatal("Proxy interrupted:", err)
+	err2 := zmq.Proxy(frontend, backend, nil)
+	log.Fatal("Proxy interrupted:", err2)
 }
 
 func server_worker() {
@@ -42,6 +44,7 @@ func server_worker() {
 
 	for {
 		msg,err := worker.RecvMessageBytes(0)
+		fmt.Println(msg)
 		if err != nil {
 			fmt.Println(err)
 		}
