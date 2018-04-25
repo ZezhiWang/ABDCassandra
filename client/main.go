@@ -7,7 +7,7 @@ import "flag"
 
 var (
 	ID string
-	servers = []string{"172.17.0.2", "172.17.0.3", "172.17.0.4"}
+	servers = []string{"127.0.0.1:5001", "127.0.0.1:5002", "127.0.0.1:5003"}
 )
 const SET=0
 const GET=1

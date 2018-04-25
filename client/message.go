@@ -8,7 +8,6 @@ import (
 
 type Message struct {
 	OpType 	int
-	Sender 	string
 	Tv 		TagVal
 }
 

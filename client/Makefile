@@ -6,5 +6,5 @@ run:
 	go run *.go
 
 clear:
-	rm ABD
+	rm abd
 

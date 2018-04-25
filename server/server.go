@@ -10,19 +10,19 @@ import (
 func server_task() {
 	// Set the Default State Variables
 	state = Tag{Id: "", Ts: 0}
-	session = getSession("172.0.0.2")
+	session = getSession(cassIP)
 	defer session.Close()
 	// Set the ZMQ sockets
 	frontend,_ := zmq.NewSocket(zmq.ROUTER)
 	defer frontend.Close()
-	frontend.Bind("tcp://5555")
+	frontend.Bind("tcp://"+port)
 
 	//  Backend socket talks to workers over inproc
 	backend, _ := zmq.NewSocket(zmq.DEALER)
 	defer backend.Close()
 	backend.Bind("inproc://backend")
 
-	fmt.Println("frontend router", "tcp://5555")
+	fmt.Println("frontend router", "tcp://"+port)
 	go server_worker()
 
 	//  Connect backend to frontend via a proxy
