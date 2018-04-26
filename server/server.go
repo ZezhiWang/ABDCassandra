@@ -8,15 +8,8 @@ import (
 )
 
 func server_task() {
-	// Set the Default State Variables
-	state = Tag{Id: "", Ts: 0}
-	session = getSession(cassIP)
-	defer session.Close()
 	// Set the ZMQ sockets
-	frontend,err := zmq.NewSocket(zmq.ROUTER)
-	if err != nil {
-		fmt.Println(err)
-	}
+	frontend,_ := zmq.NewSocket(zmq.ROUTER)
 	defer frontend.Close()
 	frontend.Bind("tcp://*:"+port)
 
@@ -28,8 +21,8 @@ func server_task() {
 	go server_worker()
 
 	//  Connect backend to frontend via a proxy
-	err2 := zmq.Proxy(frontend, backend, nil)
-	log.Fatal("Proxy interrupted:", err2)
+	err := zmq.Proxy(frontend, backend, nil)
+	log.Fatal("Proxy interrupted:", err)
 }
 
 func server_worker() {
@@ -44,12 +37,11 @@ func server_worker() {
 
 	for {
 		msg,err := worker.RecvMessageBytes(0)
-		fmt.Println(msg)
 		if err != nil {
 			fmt.Println(err)
 		}
-
 		message := getMsgFromGob(msg[1])
+		fmt.Println(message)
 		msg_reply[0] = msg[0]
 		fmt.Println(msg[0])
 
@@ -78,5 +70,7 @@ func createRep(input Message) Message {
 		tv.Val = queryGet(input.Tv.Key)
 		output.Tv = tv
 	}
+	fmt.Print("createRep: ")
+	fmt.Println(output)
 	return output
 }
