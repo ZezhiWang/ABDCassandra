@@ -12,4 +12,5 @@ run3:
 	go run *.go -clientID=5003 -cassIP=127.0.0.4 &
 
 clear:
-	rm abd
+	rm cassConn
+ 
