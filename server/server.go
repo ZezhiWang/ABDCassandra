@@ -41,9 +41,7 @@ func server_worker() {
 			fmt.Println(err)
 		}
 		message := getMsgFromGob(msg[1])
-		fmt.Println(message)
 		msg_reply[0] = msg[0]
-		fmt.Println(msg[0])
 
 		tmpMsg := createRep(message)
 		tmpGob := getGobFromMsg(tmpMsg)

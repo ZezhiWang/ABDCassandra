@@ -7,8 +7,8 @@ import "flag"
 
 var (
 	ID string
-	// servers = []string{"127.0.0.1:5001", "127.0.0.1:5002", "127.0.0.1:5003"}	
-	servers = []string{"127.0.0.1:5001"}
+	servers = []string{"127.0.0.1:5001", "127.0.0.1:5002", "127.0.0.1:5003"}	
+//	servers = []string{"127.0.0.1:5001"}
 )
 const SET=0
 const GET=1
