@@ -36,7 +36,6 @@ func server_worker() {
 	}
 
 	for {
-		fmt.Println("server now waiting")
 		msg,err := worker.RecvMessageBytes(0)
 		if err != nil {
 			fmt.Println(err)
@@ -53,7 +52,6 @@ func server_worker() {
 }
 
 func createRep(input Message) Message {
-	fmt.Println("started create reply")
 	var output Message
 	switch input.OpType{
 	case SET:
@@ -70,6 +68,5 @@ func createRep(input Message) Message {
 		tv.Val = queryGet(input.Tv.Key)
 		output.Tv = tv
 	}
-	fmt.Println("created one Reply")
 	return output
 }

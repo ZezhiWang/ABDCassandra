@@ -27,7 +27,7 @@ func queryGet(key string) string {
 }
 
 func querySet(tv TagVal) {
-	arg := fmt.Sprintf("UPDATE abd SET Id='%s', Val='%s', Ts=%d WHERE Key='%s'", tv.Tag.Id, tv.Val, tv.Tag.Ts, tv.Key)
+	arg := fmt.Sprintf("UPDATE abd SET id='%s', val='%s', ver=%d WHERE key='%s'", tv.Tag.Id, tv.Val, tv.Tag.Ts, tv.Key)
 	if err := session.Query(arg).Exec(); err != nil {
 		log.Fatal(err)
 	}
