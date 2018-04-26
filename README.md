@@ -1,14 +1,17 @@
 # ABDCassandra
 ABD algorithm implementation over Cassandra
 
-# run (default id is 172.17.0.1)
-go run *.go OR go run *.go -id=172.17.0.2
-# if SingleKey
-write value
-ex. write test
-read
-enter anything else to quit
-# if MultiKey
+# how to run
+cd server
+make
+make run1
+make run2
+make run3
+
+cd ../client
+make
+make run
+
 write key value
 ex. write 1 test
 read key

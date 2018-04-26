@@ -11,6 +11,7 @@ type Message struct {
 	Tv 		TagVal
 }
 
+// encode msg
 func getGobFromMsg(msg Message) bytes.Buffer {
 	var res bytes.Buffer
 
@@ -21,6 +22,7 @@ func getGobFromMsg(msg Message) bytes.Buffer {
 	return res
 }
 
+// decode msg
 func getMsgFromGob(msgBytes []byte) Message {
 	var buff bytes.Buffer
 	var msg Message

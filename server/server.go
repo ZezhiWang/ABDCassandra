@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-//	"github.com/gocql/gocql"
 	zmq "github.com/pebbe/zmq4"
 )
 
@@ -40,10 +39,13 @@ func server_worker() {
 		if err != nil {
 			fmt.Println(err)
 		}
+		// decode message
 		message := getMsgFromGob(msg[1])
 		msg_reply[0] = msg[0]
 
+		// create response message
 		tmpMsg := createRep(message)
+		// encode message
 		tmpGob := getGobFromMsg(tmpMsg)
 		msg_reply[1] = tmpGob.Bytes()
 
@@ -51,9 +53,11 @@ func server_worker() {
 	}
 }
 
+// create response message
 func createRep(input Message) Message {
 	var output Message
 	switch input.OpType{
+	// if set phase
 	case SET:
 		output.OpType = SET
 		if state.smaller(input.Tv.Tag) {
@@ -61,6 +65,7 @@ func createRep(input Message) Message {
 			querySet(input.Tv)
 		}
 		output.Tv = TagVal{Tag: state, Key: "", Val: ""}
+	// if get phase
 	case GET:
 		output.OpType = GET
 		tv := input.Tv

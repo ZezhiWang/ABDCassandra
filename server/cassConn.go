@@ -6,6 +6,7 @@ import(
 	"github.com/gocql/gocql"
 )
 
+// get cassandra session
 func getSession(addr string) *gocql.Session {
 	cluster := gocql.NewCluster(addr)
 	cluster.Keyspace = "demo"
@@ -17,6 +18,7 @@ func getSession(addr string) *gocql.Session {
 	return session
 }
 
+// query cassandra to get val with key
 func queryGet(key string) string {
 	var res string
 	arg := fmt.Sprintf("SELECT val FROM abd WHERE key='%s'", key)
@@ -26,6 +28,7 @@ func queryGet(key string) string {
 	return res
 }
 
+// update tagval to cassandra
 func querySet(tv TagVal) {
 	arg := fmt.Sprintf("UPDATE abd SET id='%s', val='%s', ver=%d WHERE key='%s'", tv.Tag.Id, tv.Val, tv.Tag.Ts, tv.Key)
 	if err := session.Query(arg).Exec(); err != nil {

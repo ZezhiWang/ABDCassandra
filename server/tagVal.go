@@ -11,6 +11,7 @@ type TagVal struct {
 	Val		string
 }
 
+// compare tags
 func (t *Tag) smaller(x Tag) bool {
 	var res bool
 	if t.Ts < x.Ts {
@@ -23,6 +24,7 @@ func (t *Tag) smaller(x Tag) bool {
 	return res
 }
 
+// update tag
 func (tv *TagVal) update(id string, val string) {
 	tv.Tag.Id = id
 	tv.Tag.Ts += 1
