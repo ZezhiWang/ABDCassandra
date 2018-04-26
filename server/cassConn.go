@@ -16,6 +16,8 @@ func getSession(addr string) *gocql.Session {
 
 func queryGet(key string) string {
 	var res string
+	session := getSession(cassIP)
+	defer session.Close()
 	arg := fmt.Sprintf("SELECT val FROM abd WHERE key='%s'", key)
 	if err := session.Query(arg).Scan(&res); err != nil {
 		log.Fatal(err)
@@ -24,7 +26,9 @@ func queryGet(key string) string {
 }
 
 func querySet(tv TagVal) {
-	arg := fmt.Sprintf("UPDATE abd SET Id='%s', Val='%s', Ts=%d WHERE Key='%s'", tv.Tag.Id, tv.Tag.Ts, tv.Val, tv.Key)
+	session := getSession(cassIP)
+	defer session.Close()
+	arg := fmt.Sprintf("UPDATE abd SET Id='%s', Val='%s', Ts=%d WHERE Key='%s'", tv.Tag.Id, tv.Val, tv.Tag.Ts, tv.Key)
 	if err := session.Query(arg).Exec(); err != nil {
 		log.Fatal(err)
 	}

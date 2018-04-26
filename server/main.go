@@ -2,14 +2,12 @@ package main
 
 import(
 	"flag"
-	"github.com/gocql/gocql"
 )
 
 var (
 	port	string
 	cassIP  string
 	state 	Tag
-	session *gocql.Session
 )
 
 const GET=0
@@ -21,7 +19,5 @@ func main(){
 	flag.Parse()
 	// Set the Default State Variables
 	state = Tag{Id: "", Ts: 0}
-	session = getSession(cassIP)
-	defer session.Close()
 	server_task()
 }
