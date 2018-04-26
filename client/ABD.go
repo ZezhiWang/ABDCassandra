@@ -12,6 +12,7 @@ func write(key string, val string){
 
 func read(key string) string{
 	tv := get(key)
+	fmt.Println("get phase completed")
 	set(tv)
 	return tv.Val
 }
@@ -22,10 +23,11 @@ func get(key string) TagVal {
 
 	tv := TagVal{Tag: Tag{Id: "", Ts: 0}, Key: key, Val: ""}
 	msg := Message{OpType: GET, Tv: tv}
-	go sendToServer(msg, dealer)
-
+	sendToServer(msg, dealer)
+	fmt.Println("send completed")
 	for i := 0; i < len(servers)/2 + 1; i++ {
 		tmp := recvData(dealer)
+		fmt.Println("recv one tag")
 		if tv.Tag.smaller(tmp.Tag) {
 			tv = tmp
 		}

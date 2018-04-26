@@ -70,7 +70,6 @@ func createRep(input Message) Message {
 		tv.Val = queryGet(input.Tv.Key)
 		output.Tv = tv
 	}
-	fmt.Print("createRep: ")
-	fmt.Println(output)
+	fmt.Println("created one Rep")
 	return output
 }

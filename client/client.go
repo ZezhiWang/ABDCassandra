@@ -11,7 +11,7 @@ func client(){
 	reader := bufio.NewReader(os.Stdin)
     fmt.Println("Enter Commands: ")
     for {
-	fmt.Print("->")
+	    fmt.Print("->")
         text,_ := reader.ReadString('\n')
         text = strings.Replace(text, "\n", "", -1)
         if strings.HasPrefix(text, "write"){
