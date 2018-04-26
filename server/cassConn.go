@@ -14,13 +14,6 @@ func getSession(addr string) *gocql.Session {
 	return session
 }
 
-// func closeAll() {
-// 	for _, server := range servers {
-// 		server.session.Close()
-// 	}
-// 	fmt.Println("all servers closed")
-// }
-
 func queryGet(key string) string {
 	var res string
 	arg := fmt.Sprintf("SELECT val FROM abd WHERE key='%s'", key)
