@@ -8,7 +8,7 @@ import "flag"
 var (
 	ID string
 	// IP addresses of servers
-	servers = []string{"127.0.0.1:5001", "127.0.0.1:5002", "127.0.0.1:5003"}	
+	servers = []string{"128.52.162.127:5001", "128.52.162.122:500`", "128.52.162.123:5001"}	
 )
 
 // used to mark the phase
@@ -17,7 +17,7 @@ const SET=1
 
 func main() {
 	// init client id
-	flag.StringVar(&ID, "clientID", "172.17.0.1", "input client ID")
+	flag.StringVar(&ID, "clientID", "128.52.162.120", "input client ID")
 	flag.Parse()		
 
 	client()
