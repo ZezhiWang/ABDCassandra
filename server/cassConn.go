@@ -19,19 +19,28 @@ func getSession(addr string) *gocql.Session {
 }
 
 // query cassandra to get val with key
-func queryGet(key string) string {
-	var res string
-	arg := fmt.Sprintf("SELECT val FROM abd WHERE key='%s'", key)
-	if err := session.Query(arg).Scan(&res); err != nil {
+func queryGet(key string) TagVal {
+	var tv TagVal
+	tv.Key = key
+	arg := fmt.Sprintf("SELECT val, id, ver FROM abd WHERE key='%s'", key)
+	if err := session.Query(arg).Scan(&tv.Val, &tv.Tag.Id, &tv.Tag.Ts); err != nil {
 		log.Fatal(err)
 	}
-	return res
+	return tv
 }
 
 // update tagval to cassandra
 func querySet(tv TagVal) {
-	arg := fmt.Sprintf("UPDATE abd SET id='%s', val='%s', ver=%d WHERE key='%s'", tv.Tag.Id, tv.Val, tv.Tag.Ts, tv.Key)
-	if err := session.Query(arg).Exec(); err != nil {
+	var t Tag
+	arg := fmt.Sprintf("SELECT id, ver FROM abd WHERE key='%s'", tv.Key)
+	if err := session.Query(arg).Scan(&t.Id, &t.Ts); err != nil {
 		log.Fatal(err)
+	}
+
+	if t.smaller(tv.Tag){		
+		arg = fmt.Sprintf("UPDATE abd SET id='%s', val='%s', ver=%d WHERE key='%s'", tv.Tag.Id, tv.Val, tv.Tag.Ts, tv.Key)
+		if err := session.Query(arg).Exec(); err != nil {
+			log.Fatal(err)
+		}
 	}
 }

@@ -59,19 +59,13 @@ func createRep(input Message) Message {
 	switch input.OpType{
 	// if set phase
 	case SET:
+		querySet(input.Tv)
 		output.OpType = SET
-		if state.smaller(input.Tv.Tag) {
-			state = input.Tv.Tag
-			querySet(input.Tv)
-		}
 		output.Tv = TagVal{Tag: state, Key: "", Val: ""}
 	// if get phase
 	case GET:
 		output.OpType = GET
-		tv := input.Tv
-		tv.Tag = state
-		tv.Val = queryGet(input.Tv.Key)
-		output.Tv = tv
+		output.Tv = queryGet(input.Tv.Key)
 	}
 	return output
 }
