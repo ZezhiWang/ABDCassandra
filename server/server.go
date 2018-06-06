@@ -61,7 +61,7 @@ func createRep(input Message) Message {
 	case SET:
 		querySet(input.Tv)
 		output.OpType = SET
-		output.Tv = TagVal{Tag: state, Key: "", Val: ""}
+		output.Tv = TagVal{Tag: state, Key: "", Val: make([]byte, 4)}
 	// if get phase
 	case GET:
 		output.OpType = GET

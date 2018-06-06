@@ -36,9 +36,13 @@ func test(){
 	rTime := make(chan time.Duration)
 	var WTotal, RTotal int = 0,0
 
+	for i := 0; i < num; i++{
+		write(string(i), make([]byte,4))
+	}
+
 	for i := 0; i < num; i++ {
-		go testW(wTime)
-		go testR(rTime)
+		go testW(string(i),wTime)
+		go testR(string(i),rTime)
 	}
 
 	for i := 0; i < num; i++ {
@@ -50,19 +54,19 @@ func test(){
 	fmt.Printf("Avg read time: %f ms\n", float64(RTotal)/float64(num))
 }
 
-func testW(wTime chan time.Duration){
+func testW(key string, wTime chan time.Duration){
 	mutex.Lock()
 	start := time.Now()
-	write("0","0")
+	write(key,make([]byte,4))
 	end := time.Now()
 	mutex.Unlock()
 	wTime <- end.Sub(start)
 }
 
-func testR(rTime chan time.Duration){
+func testR(key string, rTime chan time.Duration){
 	mutex.Lock()
 	start := time.Now()
-	read("0")
+	read(key)
 	end := time.Now()
 	mutex.Unlock()
 	rTime <- end.Sub(start)

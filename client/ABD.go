@@ -1,14 +1,14 @@
 package main 
 
 // abd write
-func write(key string, val string){
+func write(key string, val []byte){
 	tv := get(key)
 	tv.update(ID, val)
 	set(tv)
 }
 
 // abd read
-func read(key string) string{
+func read(key string) []byte{
 	tv := get(key)
 	set(tv)
 	return tv.Val
@@ -20,7 +20,7 @@ func get(key string) TagVal {
 	defer dealer.Close()
 
 	// init tagval
-	tv := TagVal{Tag: Tag{Id: "0", Ts: 0}, Key: key, Val: ""}
+	tv := TagVal{Tag: Tag{Id: "0", Ts: 0}, Key: key, Val: make([]byte,4)}
 	msg := Message{OpType: GET, Tv: tv}
 	sendToServer(msg, dealer)
 	

@@ -18,7 +18,7 @@ func client(){
             input := strings.SplitN(text, " ", 3)
             key := input[1]
             // abd write
-            write(key, input[2])
+            write(key, []byte(input[2]))
         } else if strings.HasPrefix(text, "read") {
             key := strings.SplitN(text, " ", 2)[1]
             // output abd read

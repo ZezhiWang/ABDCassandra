@@ -8,7 +8,7 @@ type Tag struct {
 type TagVal struct {
 	Tag 	Tag
 	Key 	string
-	Val		string
+	Val	[]byte
 }
 
 // compare tags
@@ -25,7 +25,7 @@ func (t *Tag) smaller(x Tag) bool {
 }
 
 // update tag
-func (tv *TagVal) update(id string, val string) {
+func (tv *TagVal) update(id string, val []byte) {
 	tv.Tag.Id = id
 	tv.Tag.Ts += 1
 	tv.Val = val
