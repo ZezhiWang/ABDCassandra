@@ -24,7 +24,10 @@ func queryGet(key string) TagVal {
 	tv.Key = key
 	arg := fmt.Sprintf("SELECT val, id, ver FROM abd WHERE key='%s'", key)
 	if err := session.Query(arg).Scan(&tv.Val, &tv.Tag.Id, &tv.Tag.Ts); err != nil {
-		log.Fatal(err)
+		//log.Fatal(err)
+		tv.Val = nil
+		tv.Tag.Id = ""
+		tv.Tag.Ts = 0
 	}
 	return tv
 }
