@@ -37,7 +37,9 @@ func querySet(tv TagVal) {
 	var t Tag
 	arg := fmt.Sprintf("SELECT id, ver FROM abd WHERE key='%s'", tv.Key)
 	if err := session.Query(arg).Scan(&t.Id, &t.Ts); err != nil {
-		log.Fatal(err)
+	//	log.Fatal(err)
+		t.Id = ""
+		t.Ts = 0
 	}
 
 	if t.smaller(tv.Tag){		
