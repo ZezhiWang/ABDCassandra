@@ -38,8 +38,8 @@ func querySet(tv TagVal) {
 	}
 
 	if t.smaller(tv.Tag){		
-		arg = fmt.Sprintf("UPDATE abd SET id='%s', val=?, ver=%d WHERE key='%s'", tv.Tag.Id, tv.Tag.Ts, tv.Key)
-		if err := session.Query(arg, tv.Val).Exec(); err != nil {
+		arg = fmt.Sprintf("INSERT INTO abd (key,id,val,ver) values (?,?,?,?)")
+		if err := session.Query(arg, tv.Key,tv.Tag.Id,tv.Val,tv.Tag.Ts).Exec(); err != nil {
 			log.Fatal(err)
 		}
 	}
