@@ -6,6 +6,7 @@ import(
 )
 
 var (
+	mutex = &sync.Mutex{}
 	port	string
 	cassIP  string
 	state 	Tag

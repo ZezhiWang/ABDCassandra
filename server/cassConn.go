@@ -23,12 +23,14 @@ func queryGet(key string) TagVal {
 	var tv TagVal
 	tv.Key = key
 	arg := fmt.Sprintf("SELECT val, id, ver FROM abd WHERE key='%s'", key)
+	mutex.Lock()
 	if err := session.Query(arg).Scan(&tv.Val, &tv.Tag.Id, &tv.Tag.Ts); err != nil {
 		//log.Fatal(err)
 		tv.Val = nil
 		tv.Tag.Id = ""
 		tv.Tag.Ts = 0
 	}
+	mutex.Unlock()
 	return tv
 }
 
@@ -36,6 +38,7 @@ func queryGet(key string) TagVal {
 func querySet(tv TagVal) {
 	var t Tag
 	arg := fmt.Sprintf("SELECT id, ver FROM abd WHERE key='%s'", tv.Key)
+	mutex.Lock()
 	if err := session.Query(arg).Scan(&t.Id, &t.Ts); err != nil {
 	//	log.Fatal(err)
 		t.Id = ""
@@ -48,4 +51,5 @@ func querySet(tv TagVal) {
 			log.Fatal(err)
 		}
 	}
+	mutex.Unlock()
 }
