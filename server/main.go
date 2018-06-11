@@ -1,6 +1,7 @@
 package main 
 
 import(
+	"sync"
 	"flag"
 	"github.com/gocql/gocql"
 )
