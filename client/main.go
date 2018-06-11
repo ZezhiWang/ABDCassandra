@@ -14,7 +14,9 @@ var (
 	ID string
 	mutex = &sync.Mutex{}
 	// IP addresses of servers
-	servers = []string{"128.52.162.127:5001", "128.52.162.122:500`", "128.52.162.123:5001"}	
+	servers = []string{"128.52.162.120:5001","128.52.162.128:5001","128.52.162.129:5001","128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001","128.52.162.124:5001","128.52.162.125:5001","128.52.162.131:5001"}	
+	//servers = []string{"128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001"}	
+	data_size int
 )
 
 // used to mark the phase
@@ -24,6 +26,7 @@ const SET=1
 func main() {
 	// init client id
 	flag.StringVar(&ID, "clientID", "128.52.162.120", "input client ID")
+	flag.IntVar(&data_size, "dataSize", 1024, "input data size")
 	flag.Parse()		
 
 //	client()
@@ -31,14 +34,14 @@ func main() {
 }
 
 func test(){
-	num := 1000
+	num := 100
 	wTime := make(chan time.Duration)
 	rTime := make(chan time.Duration)
 	var WTotal, RTotal int = 0,0
 
-	for i := 0; i < num; i++{
-		write(string(i), make([]byte,4))
-	}
+//	for i := 0; i < num; i++{
+//		write(string(i), make([]byte,1024))
+//	}
 
 	for i := 0; i < num; i++ {
 		go testW(string(i),wTime)
@@ -57,7 +60,7 @@ func test(){
 func testW(key string, wTime chan time.Duration){
 	mutex.Lock()
 	start := time.Now()
-	write(key,make([]byte,4))
+	write(key,make([]byte,data_size))
 	end := time.Now()
 	mutex.Unlock()
 	wTime <- end.Sub(start)
