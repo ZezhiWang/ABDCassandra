@@ -3,7 +3,7 @@ all:
 	go build *.go
 
 run:
-	go run *.go -dataSize 307200
+	go run *.go -dataSize 102400
 
 clear:
 	rm ABD 

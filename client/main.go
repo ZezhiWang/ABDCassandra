@@ -14,8 +14,8 @@ var (
 	ID string
 	mutex = &sync.Mutex{}
 	// IP addresses of servers
-	servers = []string{"128.52.162.120:5001","128.52.162.128:5001","128.52.162.129:5001","128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001","128.52.162.124:5001","128.52.162.125:5001","128.52.162.131:5001"}	
-	//servers = []string{"128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001"}	
+//	servers = []string{"128.52.162.120:5001","128.52.162.128:5001","128.52.162.129:5001","128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001","128.52.162.124:5001","128.52.162.125:5001","128.52.162.131:5001"}	
+	servers = []string{"128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001"}	
 	data_size int
 )
 
@@ -34,7 +34,7 @@ func main() {
 }
 
 func test(){
-	num := 100
+	num := 1000
 	wTime := make(chan time.Duration)
 	rTime := make(chan time.Duration)
 	var WTotal, RTotal int = 0,0
@@ -42,6 +42,8 @@ func test(){
 //	for i := 0; i < num; i++{
 //		write(string(i), make([]byte,1024))
 //	}
+
+	s := time.Now()	
 
 	for i := 0; i < num; i++ {
 		go testW(string(i),wTime)
@@ -53,8 +55,12 @@ func test(){
 		RTotal += int(<-rTime/time.Millisecond)
 	}
 
+	e := time.Now()
+	t := e.Sub(s)
+
 	fmt.Printf("Avg write time: %f ms\n", float64(WTotal)/float64(num))
 	fmt.Printf("Avg read time: %f ms\n", float64(RTotal)/float64(num))
+	fmt.Printf("Total time: %f ms\n",int(t/time.Millisecond))
 }
 
 func testW(key string, wTime chan time.Duration){
