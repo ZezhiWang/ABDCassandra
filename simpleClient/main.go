@@ -5,6 +5,7 @@ import (
 	"flag"
 	"sync"
 	"time"
+	"github.com/gocql/gocql"
 )
 
 //	Keyspace 	= demo
@@ -12,23 +13,26 @@ import (
 
 var (
 	ID string
+	servers map[string]*gocql.Session
 	mutex = &sync.Mutex{}
 	// IP addresses of servers
-//	servers = []string{"128.52.162.120:5001","128.52.162.128:5001","128.52.162.129:5001","128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001","128.52.162.124:5001","128.52.162.125:5001","128.52.162.131:5001"}	
-//	servers = []string{"128.52.162.120:5001","128.52.162.128:5001","128.52.162.129:5001","128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001"}	
-	servers = []string{"128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001"}	
+	// servers = []string{"128.52.162.120","128.52.162.128","128.52.162.129","128.52.162.127", "128.52.162.122", "128.52.162.123","128.52.162.124","128.52.162.125","128.52.162.131"}	
+	// servers = []string{"128.52.162.120","128.52.162.128","128.52.162.129","128.52.162.127", "128.52.162.122", "128.52.162.123"}	
+	servers = []string{"128.52.162.127", "128.52.162.122", "128.52.162.123"}	
 	data_size int
 )
-
-// used to mark the phase
-const GET=0
-const SET=1
 
 func main() {
 	// init client id
 	flag.StringVar(&ID, "clientID", "128.52.162.120", "input client ID")
 	flag.IntVar(&data_size, "dataSize", 1024, "input data size")
 	flag.Parse()		
+
+	servers = make(map[string]*gocql.Session)
+	for _,addr := range servers {
+		servers[addr] = getSession(addr)
+	}
+	defer closeAll()
 
 //	client()
 	test()
@@ -39,10 +43,6 @@ func test(){
 	wTime := make(chan time.Duration)
 	rTime := make(chan time.Duration)
 	var WTotal, RTotal int = 0,0
-
-//	for i := 0; i < num; i++{
-//		write(string(i), make([]byte,1024))
-//	}
 
 	s := time.Now()	
 
