@@ -34,8 +34,8 @@ func queryGet(key string) TagVal {
 
 // update tagval to cassandra
 func querySet(tv TagVal) {
-	arg := fmt.Sprintf("UPDATE abd SET id=?,val=?,ver=? WHERE key=? IF ver>?")
-	if err := session.Query(arg, tv.Tag.Id,tv.Val,tv.Tag.Ts,tv.Key,tv.Tag.Ts).Exec(); err != nil {
+	arg := fmt.Sprintf("UPDATE abd SET id=%s,val=?,ver=%d WHERE key=%s IF ver>%d",tv.Tag.Id,tv.Tag.Ts,tv.Key,tv.Tag.Ts)
+	if err := session.Query(arg, tv.Val).Exec(); err != nil {
 		log.Fatal(err)
 	}
 }
