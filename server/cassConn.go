@@ -34,7 +34,7 @@ func queryGet(key string) TagVal {
 
 // update tagval to cassandra
 func querySet(tv TagVal) {
-	arg = fmt.Sprintf("INSERT INTO abd (key,id,val,ver) values (?,?,?,?) WHERE ver < ?")
+	arg := fmt.Sprintf("INSERT INTO abd (key,id,val,ver) values (?,?,?,?) WHERE ver < ?")
 	if err := session.Query(arg, tv.Key,tv.Tag.Id,tv.Val,tv.Tag.Ts,tv.Tag.Ts).Exec(); err != nil {
 		log.Fatal(err)
 	}
