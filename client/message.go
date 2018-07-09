@@ -17,7 +17,7 @@ func getGobFromMsg(msg Message) bytes.Buffer {
 
 	enc := gob.NewEncoder(&res)
 	if err := enc.Encode(msg); err != nil {
-		fmt.Println(err)
+		fmt.Println(msg)
 	}
 	return res
 }
@@ -30,7 +30,7 @@ func getMsgFromGob(msgBytes []byte) Message {
 	buff.Write(msgBytes)
 	dec := gob.NewDecoder(&buff)
 	if err := dec.Decode(&msg); err != nil {
-		fmt.Println(err)
+		msg = Message{OpType: GET, Tv:TagVal{Tag:Tag{Id:"0",Ts:0}, Key:"", Val:make([]byte,4)}}
 	}
 	return msg
 }

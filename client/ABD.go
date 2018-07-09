@@ -1,5 +1,7 @@
 package main 
 
+// import "fmt"
+
 // abd write
 func write(key string, val []byte){
 	tv := get(key)

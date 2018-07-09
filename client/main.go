@@ -17,6 +17,7 @@ var (
 //	servers = []string{"128.52.162.120:5001","128.52.162.128:5001","128.52.162.129:5001","128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001","128.52.162.124:5001","128.52.162.125:5001","128.52.162.131:5001"}	
 //	servers = []string{"128.52.162.120:5001","128.52.162.128:5001","128.52.162.129:5001","128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001"}	
 	servers = []string{"128.52.162.127:5001", "128.52.162.122:5001", "128.52.162.123:5001"}	
+//	servers = []string{"128.52.162.122:5001"}
 	data_size int
 )
 
@@ -35,7 +36,7 @@ func main() {
 }
 
 func test(){
-	num := 1000
+	num := 500
 	wTime := make(chan time.Duration)
 	rTime := make(chan time.Duration)
 	var WTotal, RTotal int = 0,0
@@ -61,7 +62,7 @@ func test(){
 
 	// fmt.Printf("Avg write time: %f ms\n", float64(WTotal)/float64(num))
 	// fmt.Printf("Avg read time: %f ms\n", float64(RTotal)/float64(num))
-	fmt.Printf("Total time: %f ms\n",int(t/time.Millisecond))
+	fmt.Printf("Total time: %f ms\n",float64(t/time.Millisecond))
 }
 
 func testW(key string, wTime chan time.Duration){
